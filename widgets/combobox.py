@@ -5,5 +5,6 @@ class ComboBox(QtWidgets.QComboBox):
         QtWidgets.QComboBox.__init__(self)
 
         self.list = ['', 'Yes or No', 'Number', 'Name', 'Card', 'Dice']
+        
         self.comboModel = QtCore.QStringListModel(self.list)
         self.setModel(self.comboModel)
