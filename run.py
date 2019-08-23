@@ -1,8 +1,10 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-
-from engine import name
 from layouts import yesorno_lay
-import combobox
+from layouts import number_lay
+from layouts import name_lay
+from engine import name
+from widgets import combobox
+
 
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -28,6 +30,7 @@ class MainWindow(QtWidgets.QWidget):
         self.box = QtWidgets.QVBoxLayout(self)
         self.box.addWidget(self.label, alignment = QtCore.Qt.AlignCenter)
         self.box.addLayout(self.combobox)
+        self.box.addSpacing(30)
 
         self.combo.currentTextChanged.connect(self.combo_changed)
 
@@ -38,17 +41,23 @@ class MainWindow(QtWidgets.QWidget):
             self.box.removeWidget(self.label)
 
             self.choiceBox = yesorno_lay.YesOrNo_Layout()
-
             self.box.insertLayout(1, self.choiceBox)
-
-            self.button.clicked.connect(self.yesOrNo)
 
         elif self.combo.currentIndex() == 2:
 
-            pass
+            self.label.setText('')              # Something funky here
+            self.box.removeWidget(self.label)
 
-    def yesOrNo(self):
-        self.choiceLabel.setText(name.choose('Yes', 'No'))
+            self.numLayout = number_lay.NumberLayout()
+            self.box.insertLayout(1, self.numLayout)
+
+        elif self.combo.currentIndex() == 3:
+
+            self.label.setText('')              # Something funky here
+            self.box.removeWidget(self.label)
+
+            self.nameLayout = name_lay.NameLayout()
+            self.box.insertLayout(-1, self.nameLayout)
 
 if __name__ == '__main__':
     import sys
