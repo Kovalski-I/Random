@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from layouts import yesorno_lay
 from layouts import number_lay
 from layouts import name_lay
+from layouts import card_lay
 from engine import name
 from widgets import combobox
 
@@ -58,6 +59,14 @@ class MainWindow(QtWidgets.QWidget):
 
             self.nameLayout = name_lay.NameLayout()
             self.box.insertLayout(-1, self.nameLayout)
+
+        elif self.combo.currentIndex() == 4:
+
+            self.label.setText('')              # Something funky here
+            self.box.removeWidget(self.label)
+
+            self.cardLayout = card_lay.CardLayout()
+            self.box.insertLayout(-1, self.cardLayout)
 
 if __name__ == '__main__':
     import sys

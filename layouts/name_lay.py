@@ -1,5 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from widgets import addListWindow
+import random
+import pickle
 
 class NameLayout(QtWidgets.QVBoxLayout):
     def __init__(self):
@@ -31,9 +33,14 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.addLayout(self.buttonBox)
 
         self.addLabel.clicked.connect(self.show_win)
+        self.goButton.clicked.connect(self.do_random)
 
     def show_win(self):
-        if self.addWin.clicked == True:
-            self.list = self.addWin.text
-            print(self.list)
+        self.addWin = addListWindow.AddWindow()
         self.addWin.show()
+
+    def do_random(self):
+        self.file_name = 'list.pic'
+        self.f = open(self.file_name, 'rb')
+        self.list = pickle.load(self.f)
+        self.choiceLabel.setText(random.choice(self.list))

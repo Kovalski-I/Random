@@ -1,6 +1,7 @@
 from PyQt5 import QtGui
+from engine import name
 import sys
-import name
+
 
 def choose_card():
     app = QtGui.QGuiApplication(sys.argv)

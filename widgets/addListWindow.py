@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from layouts import name_lay
+import pickle
 
 class AddWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -9,7 +10,6 @@ class AddWindow(QtWidgets.QWidget):
         self.setWindowTitle('Adding List')
         self.resize(350, 480)
 
-        self.clicked = False
         self.text = []
 
         self.icon = QtGui.QIcon('appIcon.png')
@@ -37,7 +37,6 @@ class AddWindow(QtWidgets.QWidget):
         self.goButton.clicked.connect(self.go)
 
     def addString(self):
-        self.clicked = True
         self.value = self.lineEdit.text()
         self.text += [self.value]
         self.lineEdit = QtWidgets.QLineEdit()
@@ -49,10 +48,11 @@ class AddWindow(QtWidgets.QWidget):
         self.value = self.lineEdit.text()
         self.value2 = self.lineEdit2.text()
         self.text += [self.value, self.value2]
-        self.clicked = True
+        self.file = 'list.pic'
+        f = open(self.file, 'wb')
+        pickle.dump(self.text, f)
         self.close()
-        self.nameLay = name_lay.NameLayout()
-        self.nameLay.addLabel.click()
+        print(self.text)
 
 if __name__ == '__main__':
     import sys
