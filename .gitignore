@@ -1,5 +1,5 @@
 *.gitignote.swp
 *.pyc
-*.pic #files created with 'pickle' module
+*.pic
 
-__pycache__
+__pycache_/

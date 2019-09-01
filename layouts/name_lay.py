@@ -7,6 +7,14 @@ class NameLayout(QtWidgets.QVBoxLayout):
     def __init__(self):
         QtWidgets.QVBoxLayout.__init__(self)
 
+        self.style = """
+        QPushButton[flat="true"]{
+            background-color: white;
+            border-style: outset;
+        }
+        """
+        self.styleSheet = 'color: white'
+
         self.choiceFont = QtGui.QFont('Segoi Ui', 50)
         self.addFont = QtGui.QFont('Segoi Ui', 12)
 
@@ -15,9 +23,13 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.addLabel.setFlat(True)
         self.addLabel.setFont(self.addFont)
         self.statusLabel.setFont(self.addFont)
+        self.addLabel.setStyleSheet(self.styleSheet)
+        self.statusLabel.setStyleSheet(self.styleSheet)
         self.choiceLabel = QtWidgets.QLabel('?')
         self.choiceLabel.setFont(self.choiceFont)
-        self.goButton = QtWidgets.QPushButton()
+        self.choiceLabel.setStyleSheet(self.styleSheet)
+        self.goButton = QtWidgets.QPushButton(flat = True)
+        self.goButton.setStyleSheet(self.style)
 
         self.labelBox = QtWidgets.QVBoxLayout()
         self.labelBox.addWidget(self.statusLabel, alignment = QtCore.Qt.AlignCenter)
@@ -28,9 +40,11 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.buttonBox.addWidget(self.goButton)
         self.buttonBox.addSpacing(125)
 
+        self.addSpacing(20)
         self.addLayout(self.labelBox)
         self.addWidget(self.choiceLabel, alignment = QtCore.Qt.AlignCenter, stretch = 10)
         self.addLayout(self.buttonBox)
+        self.addSpacing(15)
 
         self.addLabel.clicked.connect(self.show_win)
         self.goButton.clicked.connect(self.do_random)

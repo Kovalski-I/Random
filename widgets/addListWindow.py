@@ -6,9 +6,17 @@ class AddWindow(QtWidgets.QWidget):
     def __init__(self):
         QtWidgets.QWidget.__init__(self)
 
+        self.style = """
+        QPushButton[flat="true"]{
+            background-color: white;
+            border-style: outset;
+        }
+        """
+
         self.setWindowFlags(QtCore.Qt.SubWindow)
         self.setWindowTitle('Adding List')
         self.resize(350, 480)
+        self.setStyleSheet('background-color: black')
 
         self.text = []
 
@@ -17,8 +25,10 @@ class AddWindow(QtWidgets.QWidget):
 
         self.lineEdit = QtWidgets.QLineEdit()
         self.lineEdit2 = QtWidgets.QLineEdit()
-        self.addButton = QtWidgets.QPushButton('Add String')
-        self.goButton = QtWidgets.QPushButton('Go')
+        self.addButton = QtWidgets.QPushButton('Add String', flat = True)
+        self.goButton = QtWidgets.QPushButton('Go', flat = True)
+        self.addButton.setStyleSheet(self.style)
+        self.goButton.setStyleSheet(self.style)
 
         self.lineBox = QtWidgets.QVBoxLayout()
         self.lineBox.addWidget(self.lineEdit)

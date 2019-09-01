@@ -1,8 +1,8 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from layouts import layout
 from engine import name
 from widgets import combobox
 from buttons import card, yesorno
+from layouts import (yesorno_lay, name_lay, number_lay, letter_layout)
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -48,71 +48,34 @@ class MainWindow(QtWidgets.QWidget):
         self.box.addWidget(self.label, alignment = QtCore.Qt.AlignCenter)
         self.box.addLayout(self.combobox)
 
-        self.yesButton = QtWidgets.QPushButton(flat = True)
-        self.yesButton.setStyleSheet(self.buttonStyle)
-        self.numberButton = QtWidgets.QPushButton(flat = True)
-        self.numberButton.setStyleSheet(self.buttonStyle)
-
-        self.stackedLay = QtWidgets.QStackedLayout()
-        self.stackedLay.addWidget(self.yesButton)
-        self.stackedLay.addWidget(self.numberButton)
-
-        self.HButtonLay = QtWidgets.QHBoxLayout()
-        self.HButtonLay.addSpacing(100)
-        self.HButtonLay.addLayout(self.stackedLay)
-        self.HButtonLay.addSpacing(100)
-
         self.combo.currentTextChanged.connect(self.combo_changed)
-        self.yesButton.clicked.connect(self.yes_or_no)
-        self.numberButton.clicked.connect(self.chooseNumber)
+        self.combo.currentTextChanged.connect(self.remove_objects)
+
+    def remove_objects(self):
+        for i in reversed(range(self.box.count())):
+            if self.box.itemAt(i).__class__.__name__ == 'QWidgetItem':
+                self.box.itemAt(i).widget().setParent(None)
 
     def combo_changed(self):
         if self.combo.currentIndex() == 1:
 
-            self.label.setText('?')              # Something funky here
-            self.box.removeWidget(self.label)
-
-            self.Layout = layout.lay()
-            self.box.insertLayout(-1, self.Layout, stretch = 1)
-            self.box.addLayout(self.HButtonLay)
-
-            self.stackedLay.setCurrentIndex(0)
+            self.yesLay = yesorno_lay.YesOrNo_Layout()
+            self.box.addLayout(self.yesLay)
 
         elif self.combo.currentIndex() == 2:
 
-            self.label.setText('?')              # Something funky here
-            self.box.removeWidget(self.label)
-
-            self.Layout = layout.lay()
-            self.Layout.insertLayout(2, self.spinBox)
-            self.box.insertLayout(1, self.Layout, stretch = 1)
-            self.box.addLayout(self.HButtonLay)
-
-            self.stackedLay.setCurrentIndex(1)
+            self.numberLay = number_lay.NumberLayout()
+            self.box.addLayout(self.numberLay)
 
         elif self.combo.currentIndex() == 3:
 
-            self.label.setText('')              # Something funky here
-            self.box.removeWidget(self.label)
-
-            self.Layout = layout.lay()
-            self.box.insertLayout(1, self.Layout)
+            self.nameLay = name_lay.NameLayout()
+            self.box.addLayout(self.nameLay)
 
         elif self.combo.currentIndex() == 4:
 
-            self.label.setText('')              # Something funky here
-            self.box.removeWidget(self.label)
-
-            self.Layout = layout.lay()
-            self.box.insertLayout(1, self.Layout)
-
-        elif self.combo.currentIndex() == 5:
-
-            self.label.setText('')              # Something funky here
-            self.box.removeWidget(self.label)
-
-            self.Layout = layout.lay()
-            self.box.insertLayout(1, self.Layout)
+            self.letterLay = letter_layout.LetterLayout()
+            self.box.addLayout(self.letterLay)
 
     def yes_or_no(self):
         self.label.setText(name.choose('YES', 'NO'))

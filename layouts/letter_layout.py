@@ -1,8 +1,10 @@
-from PyQt5 import QtWidgets, QtCore, QtGui
-from engine import name
+from PyQt5 import QtWidgets, QtGui, QtCore
+from engine import letter
 
-class YesOrNo_Layout(QtWidgets.QVBoxLayout):
+class LetterLayout(QtWidgets.QVBoxLayout):
     def __init__(self):
+        QtWidgets.QVBoxLayout.__init__(self)
+
         QtWidgets.QVBoxLayout.__init__(self)
 
         self.style = """
@@ -20,7 +22,7 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
 
         self.button = QtWidgets.QPushButton(flat = True)
         self.button.setStyleSheet(self.style)
-        self.button.clicked.connect(self.yesOrNo)
+        self.button.clicked.connect(self.choose_letter)
 
         self.bLay = QtWidgets.QHBoxLayout()
         self.bLay.addSpacing(100)
@@ -31,5 +33,5 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
         self.addLayout(self.bLay)
         self.addSpacing(30)
 
-    def yesOrNo(self):
-        self.choiceLabel.setText(name.choose('Yes', 'No'))
+    def choose_letter(self):
+        self.choiceLabel.setText(letter.choose())
