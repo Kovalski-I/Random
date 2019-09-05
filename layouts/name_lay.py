@@ -31,19 +31,19 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.goButton = QtWidgets.QPushButton(flat = True)
         self.goButton.setStyleSheet(self.style)
 
-        self.labelBox = QtWidgets.QVBoxLayout()
-        self.labelBox.addWidget(self.statusLabel, alignment = QtCore.Qt.AlignCenter)
-        self.labelBox.addWidget(self.addLabel, alignment = QtCore.Qt.AlignCenter)
+        self.upLay = QtWidgets.QVBoxLayout()
+        self.upLay.addWidget(self.statusLabel, alignment = QtCore.Qt.AlignCenter)
+        self.upLay.addWidget(self.addLabel, alignment = QtCore.Qt.AlignCenter)
 
-        self.buttonBox = QtWidgets.QHBoxLayout()
-        self.buttonBox.addSpacing(125)
-        self.buttonBox.addWidget(self.goButton)
-        self.buttonBox.addSpacing(125)
+        self.bLay = QtWidgets.QHBoxLayout()
+        self.bLay.addSpacing(125)
+        self.bLay.addWidget(self.goButton)
+        self.bLay.addSpacing(125)
 
         self.addSpacing(20)
-        self.addLayout(self.labelBox)
+        self.addLayout(self.upLay)
         self.addWidget(self.choiceLabel, alignment = QtCore.Qt.AlignCenter, stretch = 10)
-        self.addLayout(self.buttonBox)
+        self.addLayout(self.bLay)
         self.addSpacing(15)
 
         self.addLabel.clicked.connect(self.show_win)

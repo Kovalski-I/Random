@@ -16,6 +16,8 @@ class LetterLayout(QtWidgets.QVBoxLayout):
 
         self.font = QtGui.QFont('Segoi Ui', 50)
 
+        self.upLay = QtWidgets.QVBoxLayout()
+
         self.choiceLabel = QtWidgets.QLabel('?')
         self.choiceLabel.setFont(self.font)
         self.choiceLabel.setStyleSheet('color: white')

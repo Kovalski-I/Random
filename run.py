@@ -48,34 +48,62 @@ class MainWindow(QtWidgets.QWidget):
         self.box.addWidget(self.label, alignment = QtCore.Qt.AlignCenter)
         self.box.addLayout(self.combobox)
 
-        self.combo.currentTextChanged.connect(self.combo_changed)
+        self.lay = QtWidgets.QVBoxLayout()
+        self.lay.bLay = QtWidgets.QHBoxLayout()
+        self.lay.upLay = QtWidgets.QHBoxLayout()
+
+        self.combo.currentTextChanged.connect(self.remove_widgets)
         self.combo.currentTextChanged.connect(self.remove_objects)
+        self.combo.currentTextChanged.connect(self.combo_changed)
+
+    def remove_widgets(self):
+        for i in reversed(range(self.lay.count())):
+            if self.lay.itemAt(i).__class__.__name__ == 'QWidgetItem':
+                self.lay.itemAt(i).widget().setParent(None)
+            elif self.lay.itemAt(i).__class__.__name__ == 'QHBoxLayout':
+                for n in reversed(range(self.lay.bLay.count())):
+                    if self.lay.bLay.itemAt(n).__class__.__name__ == 'QWidgetItem':
+                        self.lay.bLay.itemAt(n).widget().setParent(None)
+            for r in reversed(range(self.lay.upLay.count())):
+                if self.lay.upLay.itemAt(r).__class__.__name__ == 'QWidgetItem':
+                    self.lay.upLay.itemAt(r).widget().setParent(None)
 
     def remove_objects(self):
         for i in reversed(range(self.box.count())):
             if self.box.itemAt(i).__class__.__name__ == 'QWidgetItem':
                 self.box.itemAt(i).widget().setParent(None)
+            elif self.box.itemAt(i).__class__.__name__ == 'QVBoxLayout':
+                self.box.itemAt(i).layout().setParent(None)
+            elif self.box.itemAt(i).__class__.__name__ == 'YesOrNo_Layout':
+                self.box.itemAt(i).layout().setParent(None)
+            elif self.box.itemAt(i).__class__.__name__ == 'NumberLayout':
+                self.box.itemAt(i).layout().setParent(None)
+            elif self.box.itemAt(i).__class__.__name__ == 'NameLayout':
+                self.box.itemAt(i).layout().setParent(None)
+            elif self.box.itemAt(i).__class__.__name__ == 'LetterLayout':
+                self.box.itemAt(i).layout().setParent(None)
+
 
     def combo_changed(self):
         if self.combo.currentIndex() == 1:
 
-            self.yesLay = yesorno_lay.YesOrNo_Layout()
-            self.box.addLayout(self.yesLay)
+            self.lay = yesorno_lay.YesOrNo_Layout()
+            self.box.addLayout(self.lay)
 
         elif self.combo.currentIndex() == 2:
 
-            self.numberLay = number_lay.NumberLayout()
-            self.box.addLayout(self.numberLay)
+            self.lay = number_lay.NumberLayout()
+            self.box.addLayout(self.lay)
 
         elif self.combo.currentIndex() == 3:
 
-            self.nameLay = name_lay.NameLayout()
-            self.box.addLayout(self.nameLay)
+            self.lay = name_lay.NameLayout()
+            self.box.addLayout(self.lay)
 
         elif self.combo.currentIndex() == 4:
 
-            self.letterLay = letter_layout.LetterLayout()
-            self.box.addLayout(self.letterLay)
+            self.lay = letter_layout.LetterLayout()
+            self.box.addLayout(self.lay)
 
     def yes_or_no(self):
         self.label.setText(name.choose('YES', 'NO'))

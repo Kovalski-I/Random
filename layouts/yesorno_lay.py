@@ -14,6 +14,8 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
 
         self.font = QtGui.QFont('Segoi Ui', 50)
 
+        self.upLay = QtWidgets.QHBoxLayout()
+
         self.choiceLabel = QtWidgets.QLabel('?')
         self.choiceLabel.setFont(self.font)
         self.choiceLabel.setStyleSheet('color: white')
