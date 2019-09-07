@@ -22,7 +22,7 @@ class MainWindow(QtWidgets.QWidget):
         self.icon = QtGui.QIcon('appIcon.png')
         self.setWindowIcon(self.icon)
 
-        self.font = QtGui.QFont('Segoi Ui', 20)
+        self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 30)
 
         self.label = QtWidgets.QLabel('Welcome!\nChoose a mode to get started')
         self.label.setFont(self.font)
@@ -31,6 +31,7 @@ class MainWindow(QtWidgets.QWidget):
 
         self.combo = combobox.ComboBox()
         self.combo.setStyleSheet('color: white')
+        self.combo.clearFocus()
 
         self.combobox = QtWidgets.QHBoxLayout()
         self.combobox.addSpacing(275)
@@ -44,17 +45,30 @@ class MainWindow(QtWidgets.QWidget):
         self.spinBox.addWidget(self.beginSpin)
         self.spinBox.addWidget(self.endSpin)
 
+        self.ficButton = QtWidgets.QPushButton()
+
         self.box = QtWidgets.QVBoxLayout(self)
         self.box.addWidget(self.label, alignment = QtCore.Qt.AlignCenter)
         self.box.addLayout(self.combobox)
+        self.box.addWidget(self.ficButton)
 
         self.lay = QtWidgets.QVBoxLayout()
         self.lay.bLay = QtWidgets.QHBoxLayout()
         self.lay.upLay = QtWidgets.QHBoxLayout()
 
+        self.ficButton.setFocus()
+
         self.combo.currentTextChanged.connect(self.remove_widgets)
         self.combo.currentTextChanged.connect(self.remove_objects)
         self.combo.currentTextChanged.connect(self.combo_changed)
+
+    def closeEvent(self, ev):
+        import os
+        os.remove('list.pic')
+        os.remove('image.pic')
+
+    def focusEvent(self, ev):
+        print('focus ev')
 
     def remove_widgets(self):
         for i in reversed(range(self.lay.count())):
@@ -85,6 +99,9 @@ class MainWindow(QtWidgets.QWidget):
 
 
     def combo_changed(self):
+        self.combo.clearFocus()
+        print(mainWindow.focusWidget())
+
         if self.combo.currentIndex() == 1:
 
             self.lay = yesorno_lay.YesOrNo_Layout()
@@ -105,18 +122,10 @@ class MainWindow(QtWidgets.QWidget):
             self.lay = letter_layout.LetterLayout()
             self.box.addLayout(self.lay)
 
-    def yes_or_no(self):
-        self.label.setText(name.choose('YES', 'NO'))
-
-    def chooseNumber(self):
-        self.beginValue = self.beginSpin.value()
-        self.endValue = self.endSpin.value()
-        self.choice = number.choose(self.beginValue, self.endValue)
-        self.numLabel.setText(str(self.choice))
-
 if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
+    print(mainWindow.focusWidget())
     sys.exit(app.exec_())

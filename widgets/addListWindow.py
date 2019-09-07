@@ -3,6 +3,7 @@ from layouts import name_lay
 import pickle
 
 class AddWindow(QtWidgets.QWidget):
+
     def __init__(self):
         QtWidgets.QWidget.__init__(self)
 
@@ -12,11 +13,11 @@ class AddWindow(QtWidgets.QWidget):
             border-style: outset;
         }
         """
+        self.editStyle = 'color: white'
 
         self.setWindowFlags(QtCore.Qt.SubWindow)
         self.setWindowTitle('Adding List')
         self.resize(350, 480)
-        self.setStyleSheet('background-color: black')
 
         self.text = []
 
@@ -47,6 +48,9 @@ class AddWindow(QtWidgets.QWidget):
         self.goButton.clicked.connect(self.go)
 
     def addString(self):
+        self.lineEdit.setDisabled(True)
+        self.lineEdit2.setDisabled(True)
+
         self.value = self.lineEdit.text()
         self.text += [self.value]
         self.lineEdit = QtWidgets.QLineEdit()
@@ -64,7 +68,7 @@ class AddWindow(QtWidgets.QWidget):
         self.close()
         print(self.text)
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     import sys
     app = QtWidgets.QApplication(sys.argv)
     win = AddWindow()
