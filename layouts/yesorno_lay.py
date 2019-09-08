@@ -1,6 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from engine import name
-from engine.button_animation import animation
+from engine import yesorno
 
 class YesOrNo_Layout(QtWidgets.QVBoxLayout):
     def __init__(self):
@@ -13,9 +12,8 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
         }
         """
 
+        ''' Creating elemets '''
         self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 90)
-
-        self.upLay = QtWidgets.QHBoxLayout()
 
         self.choiceLabel = QtWidgets.QLabel('?')
         self.choiceLabel.setFont(self.font)
@@ -36,15 +34,17 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
         self.addSpacing(30)
 
     def yesOrNo(self):
-        self.choiceLabel.setText(name.choose('Yes', 'No'))
-        print(self.button.geometry())
+        ''' Function 'choose' returns 'YES' or 'NO' value '''
+        self.choiceLabel.setText(yesorno.choose())
 
     def animate(self):
+        ''' Getting cordinates and size of the animated button '''
         self.x = self.button.x()
         self.y = self.button.y()
         self.w = self.button.width()
         self.h = self.button.height()
 
+        ''' Calculating a coordinates of diminished button '''
         self.move_x = self.w / 4
         self.move_y = self.h / 4
         self.new_x = self.x + self.move_x
@@ -52,13 +52,14 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
         self.new_w = self.w / 2
         self.new_h = self.h / 2
 
-        self.rect = QtCore.QRect(self.x, self.y, self.w, self.h)
-        self.keyRect = QtCore.QRect(self.new_x, self.new_y, self.new_w, self.new_h)
+        self.rect = QtCore.QRect(self.x, self.y, self.w, self.h) # Creating QRect with got coordinates
+        self.keyRect = QtCore.QRect(self.new_x, self.new_y, self.new_w, self.new_h)#Creating QRect with calculated corrds
 
-        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry')
+        ''' Creating animation  '''
+        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry') #Setting property which is getting to be animated
         self.anim.setStartValue(self.rect)
         self.anim.setEndValue(self.rect)
-        self.anim.setKeyValueAt(0.5, self.keyRect)
+        self.anim.setKeyValueAt(0.5, self.keyRect) # Making calculated rectangle be a half of animation
         self.anim.setDuration(100)
 
         self.anim.start()

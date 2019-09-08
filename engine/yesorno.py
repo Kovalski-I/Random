@@ -1,4 +1,4 @@
 def choose():
     import random
-    Choice = random.choice(['yes', 'no'])
+    Choice = random.choice(['YES', 'NO'])
     return Choice

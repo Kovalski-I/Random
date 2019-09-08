@@ -13,6 +13,8 @@ class AddWindow(QtWidgets.QWidget):
             border-style: outset;
         }
         """
+
+        ''' Creating elements '''
         self.editStyle = 'color: white'
 
         self.setWindowFlags(QtCore.Qt.SubWindow)
@@ -48,27 +50,28 @@ class AddWindow(QtWidgets.QWidget):
         self.goButton.clicked.connect(self.go)
 
     def addString(self):
-        self.lineEdit.setDisabled(True)
+        self.lineEdit.setDisabled(True) # Setting edits disabled
         self.lineEdit2.setDisabled(True)
 
         self.value = self.lineEdit.text()
+        ''' Adding value of lineEdit to list because line edit's name will be given to new lineEdit '''
         self.text += [self.value]
-        self.lineEdit = QtWidgets.QLineEdit()
+        self.lineEdit = QtWidgets.QLineEdit() # giving a name to already created linEdit
         self.lineBox.addSpacing(37.5)
         self.lineBox.addWidget(self.lineEdit)
-        print(self.text)
 
     def go(self):
         self.value = self.lineEdit.text()
         self.value2 = self.lineEdit2.text()
+        ''' Adding values of lineEdits to list so we have all the values in there '''
         self.text += [self.value, self.value2]
+        ''' Pickling a list to list.pic '''
         self.file = 'list.pic'
         f = open(self.file, 'wb')
         pickle.dump(self.text, f)
         self.close()
-        print(self.text)
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
     win = AddWindow()

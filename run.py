@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from engine import name
+
+#Local imports
 from widgets import combobox
-from buttons import card, yesorno
 from layouts import (yesorno_lay, name_lay, number_lay, letter_layout)
 
 
@@ -18,90 +18,87 @@ class MainWindow(QtWidgets.QWidget):
             border-style: outset;
         }
         """
+        ''' Creating elements for greeting window '''
 
         self.icon = QtGui.QIcon('appIcon.png')
         self.setWindowIcon(self.icon)
 
-        self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 30)
+        self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 50)
 
-        self.label = QtWidgets.QLabel('Welcome!\nChoose a mode to get started')
+        self.label = QtWidgets.QLabel('Choose a mode')
         self.label.setFont(self.font)
         self.label.setStyleSheet('color: white')
         self.label.setAlignment(QtCore.Qt.AlignCenter)
 
         self.combo = combobox.ComboBox()
         self.combo.setStyleSheet('color: white')
-        self.combo.clearFocus()
 
         self.combobox = QtWidgets.QHBoxLayout()
         self.combobox.addSpacing(275)
         self.combobox.addWidget(self.combo)
         self.combobox.addSpacing(275)
 
-        self.beginSpin = QtWidgets.QSpinBox()
-        self.endSpin = QtWidgets.QSpinBox()
-
-        self.spinBox = QtWidgets.QHBoxLayout()
-        self.spinBox.addWidget(self.beginSpin)
-        self.spinBox.addWidget(self.endSpin)
-
-        self.ficButton = QtWidgets.QPushButton()
-
         self.box = QtWidgets.QVBoxLayout(self)
         self.box.addWidget(self.label, alignment = QtCore.Qt.AlignCenter)
         self.box.addLayout(self.combobox)
-        self.box.addWidget(self.ficButton)
 
-        self.lay = QtWidgets.QVBoxLayout()
-        self.lay.bLay = QtWidgets.QHBoxLayout()
-        self.lay.upLay = QtWidgets.QHBoxLayout()
-
-        self.ficButton.setFocus()
-
+        ''' Setting handlers '''
         self.combo.currentTextChanged.connect(self.remove_widgets)
-        self.combo.currentTextChanged.connect(self.remove_objects)
-        self.combo.currentTextChanged.connect(self.combo_changed)
+        self.combo.currentTextChanged.connect(self.remove_layouts)
+        self.combo.currentTextChanged.connect(self.combo_changed) # occures when the value of combobox changed
 
-    def closeEvent(self, ev):
-        import os
-        os.remove('list.pic')
-        os.remove('image.pic')
-
-    def focusEvent(self, ev):
-        print('focus ev')
+    def closeEvent(self, ev): # intercepting closing of the window event
+        try:
+            import os
+            os.remove('list.pic')
+        except FileNotFoundError: # .pic will be created when user creates a list
+            ev.accept()
 
     def remove_widgets(self):
-        for i in reversed(range(self.lay.count())):
-            if self.lay.itemAt(i).__class__.__name__ == 'QWidgetItem':
-                self.lay.itemAt(i).widget().setParent(None)
-            elif self.lay.itemAt(i).__class__.__name__ == 'QHBoxLayout':
-                for n in reversed(range(self.lay.bLay.count())):
-                    if self.lay.bLay.itemAt(n).__class__.__name__ == 'QWidgetItem':
-                        self.lay.bLay.itemAt(n).widget().setParent(None)
-            for r in reversed(range(self.lay.upLay.count())):
-                if self.lay.upLay.itemAt(r).__class__.__name__ == 'QWidgetItem':
-                    self.lay.upLay.itemAt(r).widget().setParent(None)
+        ''' Setting parent of the widgets to 'None' in order to get rid of them while
+        page switching '''
+        try:
+            for i in reversed(range(self.lay.count())): # every layout has the same name "lay"
+                if self.lay.itemAt(i).__class__.__name__ == 'QWidgetItem': # getting type of the object by __name__
+                    self.lay.itemAt(i).widget().setParent(None)
 
-    def remove_objects(self):
+                elif self.lay.itemAt(i).__class__.__name__ == 'QHBoxLayout':
+                    for n in reversed(range(self.lay.bLay.count())):
+                        if self.lay.bLay.itemAt(n).__class__.__name__ == 'QWidgetItem':
+                            self.lay.bLay.itemAt(n).widget().setParent(None)
+
+                for r in reversed(range(self.lay.upLay.count())):
+                    if self.lay.upLay.itemAt(r).__class__.__name__ == 'QWidgetItem':
+                        self.lay.upLay.itemAt(r).widget().setParent(None)
+        except AttributeError: # occures when greet page is switched for the first time
+            return
+
+    def remove_layouts(self):
+        ''' Setting layout's parent to 'None' to free space for another one '''
         for i in reversed(range(self.box.count())):
             if self.box.itemAt(i).__class__.__name__ == 'QWidgetItem':
                 self.box.itemAt(i).widget().setParent(None)
+
             elif self.box.itemAt(i).__class__.__name__ == 'QVBoxLayout':
                 self.box.itemAt(i).layout().setParent(None)
+
             elif self.box.itemAt(i).__class__.__name__ == 'YesOrNo_Layout':
                 self.box.itemAt(i).layout().setParent(None)
+
             elif self.box.itemAt(i).__class__.__name__ == 'NumberLayout':
                 self.box.itemAt(i).layout().setParent(None)
+
             elif self.box.itemAt(i).__class__.__name__ == 'NameLayout':
                 self.box.itemAt(i).layout().setParent(None)
+
             elif self.box.itemAt(i).__class__.__name__ == 'LetterLayout':
                 self.box.itemAt(i).layout().setParent(None)
 
 
     def combo_changed(self):
-        self.combo.clearFocus()
-        print(mainWindow.focusWidget())
+        self.combo.clearFocus() # blue color doesn't fit the program's style
 
+        ''' Setting different layouts with their own widgets '''
         if self.combo.currentIndex() == 1:
 
             self.lay = yesorno_lay.YesOrNo_Layout()
@@ -127,5 +124,4 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
-    print(mainWindow.focusWidget())
     sys.exit(app.exec_())

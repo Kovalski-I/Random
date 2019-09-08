@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from widgets import addListWindow
+from widgets import addListWindow, name_messagebox
 import random
 import pickle
 
@@ -13,6 +13,8 @@ class NameLayout(QtWidgets.QVBoxLayout):
             border-style: outset;
         }
         """
+
+        ''' Creating elements '''
         self.styleSheet = 'color: white'
 
         self.choiceFont = QtGui.QFont('Bahnschrift SemiLight SemiConde', 90)
@@ -51,18 +53,25 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.addWin.show()
 
     def do_random(self):
-        self.file_name = 'list.pic'
-        self.f = open(self.file_name, 'rb')
-        self.list = pickle.load(self.f)
-        self.f.close()
-        self.choiceLabel.setText(random.choice(self.list))
+        try:
+            ''' Getting a pickled list of values from list.pic '''
+            self.file_name = 'list.pic'
+            self.f = open(self.file_name, 'rb')
+            self.list = pickle.load(self.f)
+            self.f.close()
+            self.choiceLabel.setText(random.choice(self.list))
+        except FileNotFoundError: # occures when user hasn't created a list
+            self.message = name_messagebox.MessageBox()
+            self.message.show()
 
     def animate(self):
+        ''' Getting cordinates and size of the animated button '''
         self.x = self.button.x()
         self.y = self.button.y()
         self.w = self.button.width()
         self.h = self.button.height()
 
+        ''' Calculating a coordinates of diminished button '''
         self.move_x = self.w / 4
         self.move_y = self.h / 4
         self.new_x = self.x + self.move_x
@@ -70,13 +79,14 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.new_w = self.w / 2
         self.new_h = self.h / 2
 
-        self.rect = QtCore.QRect(self.x, self.y, self.w, self.h)
-        self.keyRect = QtCore.QRect(self.new_x, self.new_y, self.new_w, self.new_h)
+        self.rect = QtCore.QRect(self.x, self.y, self.w, self.h) # Creating QRect with got coordinates
+        self.keyRect = QtCore.QRect(self.new_x, self.new_y, self.new_w, self.new_h)#Creating QRect with calculated corrds
 
-        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry')
+        ''' Creating animation  '''
+        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry') #Setting property which is getting to be animated
         self.anim.setStartValue(self.rect)
         self.anim.setEndValue(self.rect)
-        self.anim.setKeyValueAt(0.5, self.keyRect)
+        self.anim.setKeyValueAt(0.5, self.keyRect) # Making calculated rectangle be a half of animation
         self.anim.setDuration(100)
 
         self.anim.start()

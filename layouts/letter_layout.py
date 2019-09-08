@@ -16,8 +16,7 @@ class LetterLayout(QtWidgets.QVBoxLayout):
 
         self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 90)
 
-        self.upLay = QtWidgets.QVBoxLayout()
-
+        ''' Creating widgets and adding to layouts '''
         self.choiceLabel = QtWidgets.QLabel('?')
         self.choiceLabel.setFont(self.font)
         self.choiceLabel.setStyleSheet('color: white')
@@ -37,28 +36,31 @@ class LetterLayout(QtWidgets.QVBoxLayout):
         self.addSpacing(30)
 
     def choose_letter(self):
-        self.choiceLabel.setText(letter.choose())
+        self.choiceLabel.setText(letter.choose()) # returns letter randomly chosen from alphabet
 
     def animate(self):
+        ''' Getting cordinates and size of the animated button '''
         self.x = self.button.x()
         self.y = self.button.y()
         self.w = self.button.width()
         self.h = self.button.height()
 
-        self.move_x = self.w / 4
+        ''' Calculating a coordinates of diminished button '''
+        self.move_x = self.w / 4 
         self.move_y = self.h / 4
         self.new_x = self.x + self.move_x
         self.new_y = self.y + self.move_y
         self.new_w = self.w / 2
         self.new_h = self.h / 2
 
-        self.rect = QtCore.QRect(self.x, self.y, self.w, self.h)
-        self.keyRect = QtCore.QRect(self.new_x, self.new_y, self.new_w, self.new_h)
+        self.rect = QtCore.QRect(self.x, self.y, self.w, self.h) # Creating QRect with got coordinates
+        self.keyRect = QtCore.QRect(self.new_x, self.new_y, self.new_w, self.new_h)#Creating QRect with calculated corrds
 
-        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry')
+        ''' Creating animation  '''
+        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry') #Setting property which is getting to be animated
         self.anim.setStartValue(self.rect)
         self.anim.setEndValue(self.rect)
-        self.anim.setKeyValueAt(0.5, self.keyRect)
+        self.anim.setKeyValueAt(0.5, self.keyRect) # Making calculated rectangle be a half of animation
         self.anim.setDuration(100)
 
         self.anim.start()
