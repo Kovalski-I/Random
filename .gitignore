@@ -1,5 +1,8 @@
 *.gitignote.swp
 *.pyc
 *.pic
+*.spec
 
-__pycache_/
+__pycache__/
+build/
+dist/

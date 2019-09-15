@@ -13,6 +13,8 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
         """
 
         ''' Creating elemets '''
+        self.upLay = QtWidgets.QVBoxLayout() # Empty box to avoid AttibuteError
+
         self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 90)
 
         self.choiceLabel = QtWidgets.QLabel('?')
@@ -30,6 +32,7 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
         self.bLay.addSpacing(125)
 
         self.addWidget(self.choiceLabel, alignment = QtCore.Qt.AlignCenter)
+        self.addSpacing(10)
         self.addLayout(self.bLay)
         self.addSpacing(30)
 
@@ -56,10 +59,10 @@ class YesOrNo_Layout(QtWidgets.QVBoxLayout):
         self.keyRect = QtCore.QRect(self.new_x, self.new_y, self.new_w, self.new_h)#Creating QRect with calculated corrds
 
         ''' Creating animation  '''
-        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry') #Setting property which is getting to be animated
+        self.anim = QtCore.QPropertyAnimation(self.button, b'geometry') # Setting property which is getting to be animated
         self.anim.setStartValue(self.rect)
         self.anim.setEndValue(self.rect)
         self.anim.setKeyValueAt(0.5, self.keyRect) # Making calculated rectangle be a half of animation
-        self.anim.setDuration(100)
+        self.anim.setDuration(150)
 
         self.anim.start()

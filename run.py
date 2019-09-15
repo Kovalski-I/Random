@@ -9,7 +9,7 @@ class MainWindow(QtWidgets.QWidget):
     def __init__(self):
         QtWidgets.QWidget.__init__(self)
         self.setWindowTitle('Random')
-        self.resize(800, 450)
+        self.resize(735, 425)
         self.setStyleSheet('background-color: #000000')
 
         self.buttonStyle = """
@@ -25,7 +25,7 @@ class MainWindow(QtWidgets.QWidget):
 
         self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 50)
 
-        self.label = QtWidgets.QLabel('Choose a mode')
+        self.label = QtWidgets.QLabel('Choose a Mode')
         self.label.setFont(self.font)
         self.label.setStyleSheet('color: white')
         self.label.setAlignment(QtCore.Qt.AlignCenter)
@@ -47,13 +47,6 @@ class MainWindow(QtWidgets.QWidget):
         self.combo.currentTextChanged.connect(self.remove_layouts)
         self.combo.currentTextChanged.connect(self.combo_changed) # occures when the value of combobox changed
 
-    def closeEvent(self, ev): # intercepting closing of the window event
-        try:
-            import os
-            os.remove('list.pic')
-        except FileNotFoundError: # .pic will be created when user creates a list
-            ev.accept()
-
     def remove_widgets(self):
         ''' Setting parent of the widgets to 'None' in order to get rid of them while
         page switching '''
@@ -62,7 +55,7 @@ class MainWindow(QtWidgets.QWidget):
                 if self.lay.itemAt(i).__class__.__name__ == 'QWidgetItem': # getting type of the object by __name__
                     self.lay.itemAt(i).widget().setParent(None)
 
-                elif self.lay.itemAt(i).__class__.__name__ == 'QHBoxLayout':
+                if self.lay.itemAt(i).__class__.__name__ == 'QHBoxLayout':
                     for n in reversed(range(self.lay.bLay.count())):
                         if self.lay.bLay.itemAt(n).__class__.__name__ == 'QWidgetItem':
                             self.lay.bLay.itemAt(n).widget().setParent(None)
@@ -70,8 +63,9 @@ class MainWindow(QtWidgets.QWidget):
                 for r in reversed(range(self.lay.upLay.count())):
                     if self.lay.upLay.itemAt(r).__class__.__name__ == 'QWidgetItem':
                         self.lay.upLay.itemAt(r).widget().setParent(None)
-        except AttributeError: # occures when greet page is switched for the first time
-            return
+        except AttributeError:
+            pass # Does absolutely nothing
+
 
     def remove_layouts(self):
         ''' Setting layout's parent to 'None' to free space for another one '''

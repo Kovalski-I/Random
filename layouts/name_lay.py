@@ -24,9 +24,11 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.addLabel.setFlat(True)
         self.addLabel.setFont(self.addFont)
         self.addLabel.setStyleSheet(self.styleSheet)
+
         self.choiceLabel = QtWidgets.QLabel('?')
         self.choiceLabel.setFont(self.choiceFont)
         self.choiceLabel.setStyleSheet(self.styleSheet)
+
         self.button = QtWidgets.QPushButton(flat = True)
         self.button.setStyleSheet(self.style)
 
@@ -38,9 +40,10 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.bLay.addWidget(self.button)
         self.bLay.addSpacing(125)
 
-        self.addSpacing(20)
+        self.addSpacing(15)
         self.addLayout(self.upLay)
         self.addWidget(self.choiceLabel, alignment = QtCore.Qt.AlignCenter, stretch = 10)
+        self.addSpacing(21)
         self.addLayout(self.bLay)
         self.addSpacing(30)
 
@@ -53,14 +56,18 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.addWin.show()
 
     def do_random(self):
+        ''' Getting a pickled list of values from list.pic and last shown label from choice.pic '''
         try:
-            ''' Getting a pickled list of values from list.pic '''
-            self.file_name = 'list.pic'
-            self.f = open(self.file_name, 'rb')
-            self.list = pickle.load(self.f)
-            self.f.close()
-            self.choiceLabel.setText(random.choice(self.list))
-        except FileNotFoundError: # occures when user hasn't created a list
+
+            self.listFileName = 'list.pic'
+            self.listFile = open(self.listFileName, 'rb')
+            self.list = pickle.load(self.listFile) # Getting a list of values created in addWindow
+            self.listFile.close()
+            self.choice = random.choice(self.list) # Getting a value of the choice
+
+            self.choiceLabel.setText(self.choice)
+
+        except FileNotFoundError:
             self.message = name_messagebox.MessageBox()
             self.message.show()
 
@@ -87,6 +94,6 @@ class NameLayout(QtWidgets.QVBoxLayout):
         self.anim.setStartValue(self.rect)
         self.anim.setEndValue(self.rect)
         self.anim.setKeyValueAt(0.5, self.keyRect) # Making calculated rectangle be a half of animation
-        self.anim.setDuration(100)
+        self.anim.setDuration(150)
 
         self.anim.start()

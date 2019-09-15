@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
+# Local import
 from engine import letter
 
 class LetterLayout(QtWidgets.QVBoxLayout):
@@ -13,6 +14,7 @@ class LetterLayout(QtWidgets.QVBoxLayout):
             border-style: outset;
         }
         """
+        self.upLay = QtWidgets.QVBoxLayout()
 
         self.font = QtGui.QFont('Bahnschrift SemiLight SemiConde', 90)
 
@@ -32,6 +34,7 @@ class LetterLayout(QtWidgets.QVBoxLayout):
         self.bLay.addSpacing(125)
 
         self.addWidget(self.choiceLabel, alignment = QtCore.Qt.AlignCenter)
+        self.addSpacing(10)
         self.addLayout(self.bLay)
         self.addSpacing(30)
 
@@ -46,7 +49,7 @@ class LetterLayout(QtWidgets.QVBoxLayout):
         self.h = self.button.height()
 
         ''' Calculating a coordinates of diminished button '''
-        self.move_x = self.w / 4 
+        self.move_x = self.w / 4
         self.move_y = self.h / 4
         self.new_x = self.x + self.move_x
         self.new_y = self.y + self.move_y
@@ -61,6 +64,6 @@ class LetterLayout(QtWidgets.QVBoxLayout):
         self.anim.setStartValue(self.rect)
         self.anim.setEndValue(self.rect)
         self.anim.setKeyValueAt(0.5, self.keyRect) # Making calculated rectangle be a half of animation
-        self.anim.setDuration(100)
+        self.anim.setDuration(150)
 
         self.anim.start()

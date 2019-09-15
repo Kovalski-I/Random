@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
+# Local imports
 from engine import number
 from widgets import spinbox
 
@@ -26,20 +27,21 @@ class NumberLayout(QtWidgets.QVBoxLayout):
         self.numLabel.setFont(self.font)
 
         self.upLay = QtWidgets.QHBoxLayout()
-        self.upLay.addSpacing(40)
+        self.upLay.addSpacing(60)
         self.upLay.addWidget(self.beginSpin)
         self.upLay.addSpacing(100)
         self.upLay.addWidget(self.endSpin)
-        self.upLay.addSpacing(40)
+        self.upLay.addSpacing(60)
 
         self.bLay = QtWidgets.QHBoxLayout()
         self.bLay.addSpacing(125)
         self.bLay.addWidget(self.button)
         self.bLay.addSpacing(125)
 
-        self.addSpacing(35)
+        self.addSpacing(20)
         self.addLayout(self.upLay)
         self.addWidget(self.numLabel, alignment = QtCore.Qt.AlignCenter)
+        self.addSpacing(12)
         self.addLayout(self.bLay)
         self.addSpacing(30)
 
@@ -83,6 +85,6 @@ class NumberLayout(QtWidgets.QVBoxLayout):
         self.anim.setStartValue(self.rect)
         self.anim.setEndValue(self.rect)
         self.anim.setKeyValueAt(0.5, self.keyRect) # Making calculated rectangle be a half of animation
-        self.anim.setDuration(100)
+        self.anim.setDuration(150)
 
         self.anim.start()
