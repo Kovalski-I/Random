@@ -2,7 +2,8 @@
 *.pyc
 *.pic
 *.spec
+*.ico
 
-__pycache__/
+__pycache_/
 build/
 dist/
