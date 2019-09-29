@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 
 #Local imports
 from widgets import combobox
-from layouts import (yesorno_lay, name_lay, number_lay, letter_layout)
+from layouts import (yesorno_lay, name_lay, number_lay, letter_layout, zero_layout)
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -46,6 +46,8 @@ class MainWindow(QtWidgets.QWidget):
         self.combo.currentTextChanged.connect(self.remove_widgets)
         self.combo.currentTextChanged.connect(self.remove_layouts)
         self.combo.currentTextChanged.connect(self.combo_changed) # occures when the value of combobox changed
+
+        self.lay = QtWidgets.QVBoxLayout()
 
     def remove_widgets(self):
         ''' Setting parent of the widgets to 'None' in order to get rid of them while
@@ -93,7 +95,12 @@ class MainWindow(QtWidgets.QWidget):
         self.combo.clearFocus() # blue color doesn't fit the program's style
 
         ''' Setting different layouts with their own widgets '''
-        if self.combo.currentIndex() == 1:
+        if self.combo.currentIndex() == 0:
+
+            self.lay = zero_layout.ZeroLay()
+            self.box.addLayout(self.lay)
+
+        elif self.combo.currentIndex() == 1:
 
             self.lay = yesorno_lay.YesOrNo_Layout()
             self.box.addLayout(self.lay)

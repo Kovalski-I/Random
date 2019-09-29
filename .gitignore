@@ -3,7 +3,9 @@
 *.pic
 *.spec
 *.ico
+*.exe
 
-__pycache_/
+__pycach/
 build/
 dist/
+screenshots/
