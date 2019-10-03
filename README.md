@@ -4,4 +4,4 @@ This repository provides "Random" application implemented in dark and white inte
 In order to get "Random", visit https://sourceforge.net/projects/random-proj/ and download it from there. 
 Writing reviews for this app is very appreciated. 
 ## Contribution
-If you've mentioned any bugs or errors while using an app, we would like you to write about it in "Issues" section of GitHub or in "Discussion" section of sourceforge.
+If you've noticed any bugs or errors while using an app, we would like you to write about it in "Issues" section of GitHub or in "Discussion" section of sourceforge.
